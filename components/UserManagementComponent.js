@@ -48,18 +48,34 @@ const connectWithRedux = connect(
 const getMemberManagementActions = ({
   id,
   setCurrentIdSelected,
-  setIsOpenUpdate
+  setIsOpenUpdate,
+  banUser,
+  unBanUser,
+  enabled
 }) => {
-  return [
-    {
-      label: 'Edit User',
-      action: () => {
-        setIsOpenUpdate(true);
-        setCurrentIdSelected(id);
-      },
-      icon: <Edit />
-    }
-  ];
+  return !enabled
+    ? [
+        {
+          label: 'Active Biker',
+          action: () => unBanUser(id),
+          icon: <LockOpen />
+        }
+      ]
+    : [
+        {
+          label: 'Edit Biker',
+          action: () => {
+            setIsOpenUpdate(true);
+            setCurrentIdSelected(id);
+          },
+          icon: <Edit />
+        },
+        {
+          label: 'Disable Biker',
+          action: () => banUser(id),
+          icon: <Lock />
+        }
+      ];
 };
 const COLUMNS = [
   {
@@ -88,7 +104,13 @@ const COLUMNS = [
   }
 ];
 
-const getData = (userData = [], setCurrentIdSelected, setIsOpenUpdate) =>
+const getData = (
+  userData = [],
+  setCurrentIdSelected,
+  setIsOpenUpdate,
+  banUser,
+  unBanUser
+) =>
   userData &&
   userData.map(
     ({
@@ -121,7 +143,10 @@ const getData = (userData = [], setCurrentIdSelected, setIsOpenUpdate) =>
       actions: getMemberManagementActions({
         id,
         setCurrentIdSelected,
-        setIsOpenUpdate
+        setIsOpenUpdate,
+        banUser,
+        unBanUser,
+        enabled
       }).map(({ label, action, icon }, index) => (
         <ButtonActionTableComponent
           key={index}
@@ -139,7 +164,9 @@ const UserManagementComponent = ({
   addUserSuccessMessage,
   resetData,
   resetAddUserForm,
-  updateUserSuccessMessage
+  updateUserSuccessMessage,
+  banUser,
+  unBanUser
 }) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
@@ -201,7 +228,9 @@ const UserManagementComponent = ({
         data={getData(
           (usersData || {}).content,
           setCurrentIdSelected,
-          setIsOpenUpdate
+          setIsOpenUpdate,
+          banUser,
+          unBanUser
         )}
         columns={COLUMNS}
         totalCount={totalCount}
