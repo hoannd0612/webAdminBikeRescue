@@ -1,0 +1,46 @@
+// {
+//   "extends": [
+//     "react-app",
+//     "plugin:prettier/recommended",
+//     "plugin:flowtype/recommended"
+//   ],
+//   "rules": {
+//     "prettier/prettier": "error",
+//     "jsx-a11y/anchor-is-valid": 0,
+//     "no-unused-vars": [
+//       "warn",
+//       {
+//         "ignoreRestSiblings": true
+//       }
+//     ],
+//     "no-sparse-arrays": "off"
+//   },
+//   "settings": {
+//     "react": {
+//       "version": "detect"
+//     }
+//   }
+// }
+
+{
+  "extends": [
+    "react-app",
+    "plugin:flowtype/recommended",
+    "prettier",
+    "prettier/babel"
+  ],
+  "rules": {
+    "jsx-a11y/anchor-is-valid": 0,
+    "no-unused-vars": [
+      "warn",
+      {
+        "ignoreRestSiblings": true
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

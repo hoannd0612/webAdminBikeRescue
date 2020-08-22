@@ -1,0 +1,11 @@
+{
+  "short_name": "judonguyen",
+  "name": "Thaind97",
+  "description": "",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [],
+  "start_url": "/",
+  "theme_color": "#466bde",
+  "background_color": "#fff"
+}
