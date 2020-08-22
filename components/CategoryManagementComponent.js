@@ -85,11 +85,11 @@ const COLUMNS = [
   {
     field: 'status',
     title: 'Category Status'
-  },
-  {
-    field: 'actions',
-    title: 'Actions'
   }
+  // {
+  //   field: 'actions',
+  //   title: 'Actions'
+  // }
 ];
 
 const getData = ({
@@ -200,7 +200,7 @@ const CategoryManagementComponent = ({
         }}
       />
       <FrameHeaderComponent title="Category management">
-        <Button onClick={() => setIsOpenAdd(true)}>Add new category</Button>
+        {/* <Button onClick={() => setIsOpenAdd(true)}>Add new category</Button> */}
       </FrameHeaderComponent>
       <ReactTableLayout
         hasPaging={false}

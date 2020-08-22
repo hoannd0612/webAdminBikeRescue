@@ -58,11 +58,9 @@ const getData = ({ servicesData = [] }) => {
         description: shopService.description,
         unit: services.unit,
         price:
-          shopService.price &&
-          shopService.price.toLocaleString('it-IT', {
-            style: 'currency',
-            currency: 'VND'
-          })
+          shopService.price && shopService.price == '-1'
+            ? 'Liên hệ'
+            : shopService.price + 'k Vnd'
       };
     })
   );
@@ -100,23 +98,23 @@ const ShopDetailsComponent = ({
       avatar: <AvatarComponent small url={detailsData.avtUrl} />,
       shopName: detailsData.shopName,
       phoneNumber: detailsData.phoneNumber,
-      longtitude: detailsData.longtitude || <small>not yet defined</small>,
-      latitude: detailsData.latitude || <small>not yet defined</small>,
+      longtitude: detailsData.longtitude || <small>N/A</small>,
+      latitude: detailsData.latitude || <small>N/A</small>,
       rating: <RatingComponent star={detailsData.numOfStar} /> || (
-        <small>not yet defined</small>
+        <small>N/A</small>
       ),
-      email: detailsData.email || <small>not yet defined</small>,
-      address: detailsData.address || <small>not yet defined</small>,
-      description: detailsData.description || <small>not yet defined</small>,
+      email: detailsData.email || <small>N/A</small>,
+      address: detailsData.address || <small>N/A</small>,
+      description: detailsData.description || <small>N/A</small>,
       openTime: detailsData.openTime ? (
-        detailsData.openTime
+        detailsData.openTime + 'h'
       ) : (
-        <small>not yet defined</small>
+        <small>N/A</small>
       ),
       closeTime: detailsData.closeTime ? (
-        detailsData.closeTime
+        detailsData.closeTime + 'h'
       ) : (
-        <small>not yet defined</small>
+        <small>N/A</small>
       ),
       status: (
         <Chip

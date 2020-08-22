@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { createLink } from '../libs';
 import Moment from 'react-moment';
 import { DATE_TIME_FORMAT } from '../utils';
+import DisplayShortenComponent from './commons/DisplayShotenComponent';
 
 const connectWithRedux = connect(
   createStructuredSelector({
@@ -27,10 +28,10 @@ const COLUMNS = [
     title: 'Code'
   },
 
-  {
-    field: 'reviewComment',
-    title: 'Comment'
-  },
+  // {
+  //   field: 'reviewComment',
+  //   title: 'Comment'
+  // },
   {
     field: 'reviewRating',
     title: 'Rating'
@@ -49,7 +50,11 @@ const getData = ({ requestsData = [] }) =>
         <a>{request.code}</a>
       </Link>
     ),
-    reviewComment: request.reviewComment,
+    reviewComment: (
+      <DisplayShortenComponent character={40}>
+        {request.reviewComment}
+      </DisplayShortenComponent>
+    ),
     reviewUpdateDate: request.reviewUpdateDate && (
       <Moment format={DATE_TIME_FORMAT}>{request.reviewUpdateDate}</Moment>
     ),

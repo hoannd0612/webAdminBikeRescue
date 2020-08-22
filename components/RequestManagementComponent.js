@@ -21,6 +21,7 @@ import RLink from '../layouts/RLink';
 import RequestStatusComponent from './RequestStatusComponent';
 import Moment from 'react-moment';
 import { DATE_TIME_FORMAT } from '../utils';
+import { get } from 'lodash/fp';
 
 const connectWithRedux = connect(
   createStructuredSelector({
@@ -46,12 +47,12 @@ const COLUMNS = [
   },
   {
     field: 'userAccepted',
-    title: 'Shop Owner'
+    title: 'Shop Name'
   },
-  {
-    field: 'acceptedAt',
-    title: 'Time Accepted'
-  },
+  // {
+  //   field: 'acceptedAt',
+  //   title: 'Time Accepted'
+  // },
   {
     field: 'status',
     title: 'Status'
@@ -72,10 +73,15 @@ const getData = ({ requestsData = [] }) =>
       <Link
         href={createLink([
           'shop-owner',
-          `details?id=${(request.accepted || {}).id}`
+          'shop',
+          `details?id=${get('listReqShopService[0].shopService.shops.id')(
+            request
+          )}`
         ])}
       >
-        <a>{(request.accepted || {}).fullName}</a>
+        <a>
+          {get('listReqShopService[0].shopService.shops.shopName')(request)}
+        </a>
       </Link>
     ),
     acceptedAt: (

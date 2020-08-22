@@ -115,8 +115,8 @@ const ShopDetailsComponent = ({
       avatar: <AvatarComponent small url={detailsData.avatarUrl} />,
       fullName: detailsData.fullName,
       phoneNumber: detailsData.phoneNumber,
-      email: detailsData.email || <small>not yet defined</small>,
-      address: detailsData.address || <small>not yet defined</small>,
+      email: detailsData.email || <small>N/A</small>,
+      address: detailsData.address || <small>N/A</small>,
       status: (
         <Chip
           label={detailsData.status ? 'Active' : 'Disabled'}

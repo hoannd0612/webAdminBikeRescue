@@ -3,8 +3,8 @@ import { Star } from '@material-ui/icons';
 import { Grid } from '@material-ui/core';
 
 const RatingComponent = ({ star }) => {
-  if (!star) {
-    return null;
+  if (star == -1 || !star) {
+    return 'Chưa có đánh giá';
   }
   return (
     <Grid>

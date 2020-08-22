@@ -36,7 +36,7 @@ const REQUEST_SHOP_SERVICES_COLUMN = [
   { field: 'serviceName', title: 'Service Name' },
   { field: 'unit', title: 'Service Unit' },
   { field: 'category', title: 'Category' },
-  { field: 'price', title: 'Price' }
+  { field: 'price', title: 'Service Price' }
 ];
 
 const getData = ({ detailsData = {} }) => {
@@ -57,13 +57,11 @@ const getData = ({ detailsData = {} }) => {
           </DisplayShortenComponent>
         ),
         category: get('shopService.services.category.categoryName')(service),
-        price: (get('shopService.price')(service) || 0).toLocaleString(
-          'it-IT',
-          {
-            style: 'currency',
-            currency: 'VND'
-          }
-        ),
+        price:
+          get('shopService.price')(service) &&
+          get('shopService.price')(service) == '-1'
+            ? 'Liên hệ'
+            : get('shopService.price')(service) + 'k Vnd',
         unit: get('shopService.services.unit')(service)
       };
     })
@@ -79,12 +77,12 @@ const RequestDetailsComponent = ({ detailsData, getDetails }) => {
     { key: 'userCreated', label: 'Biker' },
     { key: 'createdAt', label: 'Time Created' },
     { key: 'userAccepted', label: 'Shop Owner' },
-    { key: 'acceptedAt', label: 'Time Accepted' },
+    // { key: 'acceptedAt', label: 'Time Accepted' },
     { key: 'vehicle', label: 'Vehicle' },
     // { key: 'latitude', label: 'Latitude' },
     { key: 'reviewComment', label: 'Review Comment' },
     { key: 'reviewRating', label: 'Review Rating' },
-    { key: 'price', label: 'Price' },
+    { key: 'price', label: 'Request Price' },
     { key: 'address', label: 'Address' },
     { key: 'cancelReason', label: 'Cancel Reason' },
     { key: 'status', label: 'Request Status' }
@@ -111,10 +109,7 @@ const RequestDetailsComponent = ({ detailsData, getDetails }) => {
       acceptedAt: (detailsData.accepted || {}).createdTime,
       longtitude: detailsData.longtitude,
       latitude: detailsData.latitude,
-      price: detailsData.price.toLocaleString('it-IT', {
-        style: 'currency',
-        currency: 'VND'
-      }),
+      price: detailsData.price + 'k Vnd',
       vehicle: detailsData.vehicle.brand,
       reviewComment: detailsData.reviewComment,
       reviewRating: <RatingComponent star={detailsData.reviewRating} />,
