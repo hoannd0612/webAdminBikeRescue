@@ -23,6 +23,8 @@ import {
 } from '../stores/userState';
 import AvatarComponent from './AvatarComponent';
 import DisplayShortenComponent from './commons/DisplayShotenComponent';
+import { createLink } from '../libs';
+import Link from 'next/link';
 
 const connectWithRedux = connect(
   createStructuredSelector({
@@ -76,11 +78,6 @@ const COLUMNS = [
     field: 'phoneNumber',
     title: 'Phone'
   },
-
-  {
-    field: 'createTime',
-    title: 'Date Created'
-  },
   {
     field: 'status',
     title: 'Status'
@@ -94,12 +91,24 @@ const COLUMNS = [
 const getData = (userData = [], setCurrentIdSelected, setIsOpenUpdate) =>
   userData &&
   userData.map(
-    ({ id, avtUrl, email, status: enabled, fullName, phoneNumber }) => ({
+    ({
+      id,
+      avtUrl,
+      email,
+      status: enabled,
+      fullName,
+      phoneNumber,
+      createdTime
+    }) => ({
       avatar: <AvatarComponent small url={avtUrl} />,
-      fullName: fullName,
+      fullName: (
+        <Link href={createLink(['biker', `details?id=${id}`])}>
+          <a>{fullName}</a>
+        </Link>
+      ),
       email: email,
       phoneNumber: phoneNumber,
-      createTime: fullName,
+      createTime: createdTime,
       status: (
         <Chip
           label={enabled ? 'Active' : 'Disabled'}
