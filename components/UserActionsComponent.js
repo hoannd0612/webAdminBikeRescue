@@ -8,7 +8,7 @@ import Button from '../layouts/Button';
 import { Grid } from '@material-ui/core';
 import RenderFieldComponent from './FormFields/RenderFieldComponent';
 
-import { required, emailValidation } from '../utils/validation';
+import { required, emailValidation, phoneNumber } from '../utils/validation';
 import RenderSwitchFieldComponent from './FormFields/RenderSwitchFieldComponent';
 import RenderTimePickerFieldComponent from './FormFields/RenderTimePickerFieldComponent';
 import {
@@ -110,7 +110,7 @@ const UserActionComponent = ({
             component={RenderFieldComponent}
             placeholder="Phone Number"
             label="Phone Number"
-            validate={[required]}
+            validate={[required, phoneNumber]}
           />
           <Field
             col={6}

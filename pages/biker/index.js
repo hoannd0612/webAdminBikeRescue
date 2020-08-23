@@ -5,7 +5,7 @@ import AuthenHOC from '../../components/HOC/AuthenHOC';
 import UserManagementComponent from '../../components/UserManagementComponent';
 
 const ManagePage = rootProps => (
-  <PageLayout {...rootProps} title="User Management">
+  <PageLayout {...rootProps} title="Biker management">
     <UserManagementComponent />
   </PageLayout>
 );

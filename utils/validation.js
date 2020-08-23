@@ -14,3 +14,5 @@ export const roleName = value =>
   value && !/^ROLE_+[A-Za-z]+$/.test(value)
     ? 'Role name must be have prefix `ROLE_{character}`'
     : undefined;
+
+export const phoneNumber = value => value && value.length  !== 10 ? "The phone number length must be 10 charactor !" : undefined

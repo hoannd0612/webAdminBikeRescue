@@ -196,7 +196,7 @@ const UserManagementComponent = ({
   return (
     <React.Fragment>
       <AlertDialog
-        title="Add new user"
+        title="Add new biker"
         isOpenDialog={isOpenAdd}
         setIsOpenDialog={setIsOpenAdd}
         isFooter={false}
@@ -205,7 +205,7 @@ const UserManagementComponent = ({
         content={<UserActionsComponent />}
       />
       <AlertDialog
-        title="Update User"
+        title="Update Biker"
         isOpenDialog={isOpenUpdate}
         setIsOpenDialog={setIsOpenUpdate}
         isFooter={false}
@@ -220,8 +220,8 @@ const UserManagementComponent = ({
           setIsOpenUpdate(false);
         }}
       />
-      <FrameHeaderComponent title="User management">
-        <Button onClick={() => setIsOpenAdd(true)}>Add new user</Button>
+      <FrameHeaderComponent title="Biker management">
+        <Button onClick={() => setIsOpenAdd(true)}>Add new biker</Button>
       </FrameHeaderComponent>
       <ReactTableLayout
         dispatchAction={getUsers}

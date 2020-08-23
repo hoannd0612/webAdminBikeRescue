@@ -9,6 +9,8 @@ import { Done, Lock } from '@material-ui/icons';
 import CardSimpleLayout from '../layouts/CardSimpleLayout';
 import InfoLayout from '../layouts/InforLayout';
 import AvatarComponent from './AvatarComponent';
+import Moment from 'react-moment';
+import { DATE_TIME_FORMAT } from '../utils';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -30,6 +32,7 @@ const UserDetailsComponent = ({ detailsData, getDetails }) => {
     { label: 'Email', key: 'email' },
     { label: 'Address', key: 'address' },
     { label: 'Phone Number', key: 'phoneNumber' },
+    { label: 'Time Created', key: 'timeCreated' },
     { label: 'Status', key: 'status' }
   ];
   let displays = {};
@@ -40,6 +43,7 @@ const UserDetailsComponent = ({ detailsData, getDetails }) => {
       email: detailsData.email,
       address: detailsData.address,
       phoneNumber: detailsData.phoneNumber,
+      timeCreated: <Moment format={DATE_TIME_FORMAT}>{detailsData.createdTime}</Moment>,
       status: (
         <Chip
           label={detailsData.status ? 'Active' : 'Disabled'}
