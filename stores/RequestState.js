@@ -5,6 +5,7 @@ import { respondToSuccess } from '../stores/middlewares/api-reaction';
 import { createErrorSelector } from '../utils';
 import nfetch from '../libs/nfetch';
 import { getResetter } from '../libs';
+import moment from 'moment';
 
 const GET_REQUEST = 'GET_REQUEST';
 export const ADD_NEW_REQUEST = 'ADD_NEW_REQUEST';
@@ -12,14 +13,33 @@ const GET_REQUEST_BY_ID = 'GET_REQUEST_BY_ID';
 const GET_REVIEW_COMMENT = 'GET_REVIEW_COMMENT';
 
 //Get role paging
-export const GetRequestsAPI = makeFetchAction(GET_REQUEST, ({ page, size }) =>
-  nfetch({
-    endpoint: `/biker/getAllRequestPaging?page=${page}&size=${size}`,
-    method: 'GET'
-  })()
+export const GetRequestsAPI = makeFetchAction(
+  GET_REQUEST,
+  ({ page, size, dateRange = {} }) => {
+    let to, from;
+    if (!dateRange.fromDate) {
+      from = moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD');
+    } else {
+      from = dateRange.fromDate;
+    }
+    if (!dateRange.toDate) {
+      to = moment().format('YYYY-MM-DD');
+    } else {
+      to = dateRange.toDate;
+    }
+    return nfetch({
+      endpoint: `/shop/filterByCreatedDate?from=${from}&to=${to}&page=${page}&size=${size}`,
+      method: 'GET'
+    })();
+  }
 );
-export const getRequests = ({ page, size }) =>
-  respondToSuccess(GetRequestsAPI.actionCreator({ page, size }), () => {});
+export const getRequests = ({ page, size, dateRange = {} }) =>
+  respondToSuccess(
+    GetRequestsAPI.actionCreator({ page, size, dateRange }),
+    () => {}
+  );
 export const GetRequestsDataSelector = GetRequestsAPI.dataSelector;
 
 //Get review comment

@@ -20,7 +20,7 @@ import AvatarComponent from './AvatarComponent';
 import RLink from '../layouts/RLink';
 import RequestStatusComponent from './RequestStatusComponent';
 import Moment from 'react-moment';
-import { DATE_TIME_FORMAT } from '../utils';
+import { DATE_TIME_FORMAT, DEFAULT_DATE_RANGE } from '../utils';
 import { get } from 'lodash/fp';
 
 const connectWithRedux = connect(
@@ -28,7 +28,10 @@ const connectWithRedux = connect(
     requestsData: GetRequestsDataSelector
   }),
   dispatch => ({
-    getRequests: (page, size) => dispatch(getRequests({ page, size })),
+    getRequests: (page, size, dateRange) => {
+      console.log({ dateRange });
+      dispatch(getRequests({ page, size, dateRange }));
+    },
     resetAddRequestForm: () => dispatch(reset('addNewRequest'))
   })
 );
@@ -91,10 +94,12 @@ const getData = ({ requestsData = [] }) =>
     ),
     longtitude: request.longtitude,
     latitude: request.latitude,
-    price: request.price.toLocaleString('it-IT', {
-      style: 'currency',
-      currency: 'VND'
-    }),
+    price:
+      request.price &&
+      request.price.toLocaleString('it-IT', {
+        style: 'currency',
+        currency: 'VND'
+      }),
     address: <ShortenContentComponent content={request.address} />,
     status: <RequestStatusComponent status={request.status} />
   }));
@@ -107,6 +112,7 @@ const RequestManagementComponent = ({
   resetAddRequestForm,
   updateRequestData
 }) => {
+  const [dateRange, setDateRange] = useState(DEFAULT_DATE_RANGE);
   useEffect(() => {
     if (addRequestSuccessMessage) {
       setIsOpenAdd(false);
@@ -141,6 +147,9 @@ const RequestManagementComponent = ({
         totalCount={totalCount}
         page={page}
         pageSize={pageSize}
+        hasAction={true}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
       />
     </React.Fragment>
   );

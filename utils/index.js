@@ -56,5 +56,8 @@ export const DEFAULT_DATE_RANGE = {
 export const formatDate = time =>
   time ? moment(time).format(DATE_FORMAT) : null;
 
+export const formatDate2 = time =>
+  time ? moment(time).format('YYYY-MM-DD') : null;
+
 export const isValidDateFormat = value =>
-  value ? moment(value, DATE_FORMAT, true).isValid() : false;
+  value ? moment(value, 'YYYY-MM-DD', true).isValid() : false;

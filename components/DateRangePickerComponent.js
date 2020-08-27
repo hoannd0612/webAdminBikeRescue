@@ -10,7 +10,7 @@ import {
   DateRangeDelimiter,
   DateRangePicker as DateRangePickerUI
 } from '@material-ui/pickers';
-import { formatDate, isValidDateFormat, DATE_FORMAT } from '../utils';
+import { formatDate2, isValidDateFormat, DATE_FORMAT } from '../utils';
 
 function DateRangePicker({ setDateRange }) {
   const [selectedDate, setSelectedDate] = React.useState([null, null]);
@@ -34,8 +34,9 @@ function DateRangePicker({ setDateRange }) {
     }
 
     if (isAllOfTruthy) {
-      fromDate = formatDate(date[0]);
-      toDate = formatDate(date[1]);
+      fromDate = formatDate2(date[0]);
+      toDate = formatDate2(date[1]);
+      console.log({ fromDate, toDate });
     }
     isValidDateFormat(fromDate) &&
       isValidDateFormat(toDate) &&
@@ -85,7 +86,7 @@ function DateRangePicker({ setDateRange }) {
         endText="End Date"
         dis
         value={selectedDate}
-        onChange={(date) => {
+        onChange={date => {
           handleDateChange(date);
         }}
         renderInput={(startProps, endProps) => (

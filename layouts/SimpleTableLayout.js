@@ -3,6 +3,7 @@ import { doDispatchAction } from '../utils';
 import dynamic from 'next/dynamic';
 import clsx from 'clsx';
 import SearchComponent from '../components/SearchComponent';
+import DateRangePickerComponent from '../components/DateRangePickerComponent';
 import {
   AddBox,
   ArrowDownward,
@@ -62,7 +63,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   dateRange: {
-    padding: `0px ${theme.spacing(1)}px`,
+    padding: `8px ${theme.spacing(1)}px`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -90,6 +91,8 @@ const ReactTableLayout = ({
   hasAction = false,
   hasPaging = true,
   dispatchExCondition = [],
+  setDateRange,
+  dateRange,
   ...others
 }) => {
   const {
@@ -132,7 +135,7 @@ const ReactTableLayout = ({
     if (hasAction && hasPaging) {
       doDispatchAction(
         typeof dispatchAction === 'function' &&
-          dispatchAction(pageIndex, pageSizeTable, exCondition)
+          dispatchAction(pageIndex, pageSizeTable, dateRange, exCondition)
       );
     }
   }, [
@@ -141,7 +144,8 @@ const ReactTableLayout = ({
     dispatchAction,
     exCondition,
     hasAction,
-    hasPaging
+    hasPaging,
+    dateRange
   ]);
 
   // useEffect(() => {
@@ -156,14 +160,23 @@ const ReactTableLayout = ({
           direction="column"
           className={clsx(classes.searchSection, 'shadow')}
         >
-          <Grid container justify="center">
-            <Grid className={classes.searchMobile} item xs={12} sm={6} lg={7}>
+          <Grid container justify="flex-end">
+            {/* <Grid className={classes.searchMobile} item xs={12} sm={6} lg={7}>
               <SearchComponent
                 searchMessage={searchMessage}
                 setSearchMessage={setSearchMessage}
                 placeholder={placeholder}
                 dispatchAction={dispatchAction}
               />
+            </Grid> */}
+            <Grid
+              className={clsx(classes.dateRangeMobile, classes.dateRange)}
+              item
+              xs={12}
+              sm={6}
+              lg={5}
+            >
+              <DateRangePickerComponent small setDateRange={setDateRange} />
             </Grid>
           </Grid>
           <Divider />
