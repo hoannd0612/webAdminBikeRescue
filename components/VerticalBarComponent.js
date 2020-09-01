@@ -32,7 +32,8 @@ import {
   PermDataSetting,
   RoomService,
   ImportExport,
-  Message
+  Message,
+  BugReport
 } from '@material-ui/icons';
 import { removeToken } from '../libs/token-libs';
 
@@ -138,6 +139,11 @@ const menuStructures = [
     name: 'feedback',
     label: 'Feedback',
     icon: <Message fontSize="small" />
+  },
+  {
+    name: 'complain',
+    label: 'Complain',
+    icon: <BugReport fontSize="small" />
   },
   {
     label: 'Logout',
