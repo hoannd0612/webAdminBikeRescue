@@ -183,7 +183,7 @@ const ComplainManagementComponent = ({
         content={
           <Grid style={{ padding: `32px 0px` }}>
             <Typography variant="h6">
-              Xác nhận hoàn thành khiểu nại
+              Xác nhận hoàn thành khiếu nại
             </Typography>
             <i style={{ color: 'red' }}>Chú ý: hành động này không thể xác nhận lại</i>
           </Grid>
