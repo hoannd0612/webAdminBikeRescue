@@ -55,18 +55,19 @@ const getActions = ({
   status,
   id,
   setCurrentIdSelected,
-  updateShopOwnerStatus
+  updateShopOwnerStatus,
+  setIsOpenUpdate
 }) => {
   return !status
     ? [
-        // {
-        //   label: 'Edit shop',
-        //   action: () => {
-        //     setIsOpenUpdate(true);
-        //     setCurrentIdSelected(id);
-        //   },
-        //   icon: <Edit />
-        // },
+        {
+          label: 'Edit shop',
+          action: () => {
+            setIsOpenUpdate(true);
+            setCurrentIdSelected(id);
+          },
+          icon: <Edit />
+        },
         {
           label: 'Active Service',
           action: () => updateShopOwnerStatus(id),

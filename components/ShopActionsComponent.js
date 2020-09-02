@@ -36,10 +36,10 @@ const connectToRedux = connect(
   }),
   dispatch => ({
     onSubmit: values => {
-      if ('status' in values) {
-        dispatch(updateShopOwner(values));
-      } else {
+      if ('password' in values) {
         dispatch(addNewShopOwner(values));
+      } else {
+        dispatch(updateShopOwner(values));
       }
     },
     getShopById: id => dispatch(getShopOwnerById(id)),
@@ -124,14 +124,14 @@ const ShopActionComponent = ({
             validate={[required]}
           />
 
-          {isUpdate && (
+          {/* {isUpdate && (
             <Field
               col={6}
               name="status"
               component={RenderSwitchFieldComponent}
               label="Status"
             />
-          )}
+          )} */}
           <Field col={6} name="avtUrl" component={RenderImageFieldComponent} />
           <Grid container justify="center">
             <Grid>
