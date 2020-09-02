@@ -20,7 +20,8 @@ import {
   AddNewServiceDataSelector,
   UpdateServiceDataSelector,
   AddNewServiceResetter,
-  UpdateServiceResetter
+  UpdateServiceResetter,
+  deleteShopOwner
 } from '../stores/ShopState';
 // import ShopOwnerAddingComponent from './ShopOwnerAddingComponent';
 import ServiceActionComponent from './ServiceActionComponent';
@@ -45,20 +46,31 @@ const connectWithRedux = connect(
       dispatch(AddNewServiceResetter);
       dispatch(UpdateServiceResetter);
     },
-    resetAddShopOwnerForm: () => dispatch(reset('addNewShopOwner'))
+    resetAddShopOwnerForm: () => dispatch(reset('addNewShopOwner')),
+    updateShopOwnerStatus: id => dispatch(deleteShopOwner(id))
   })
 );
 
-const getActions = ({ status, id, setCurrentIdSelected, setIsOpenUpdate }) => {
+const getActions = ({
+  status,
+  id,
+  setCurrentIdSelected,
+  updateShopOwnerStatus
+}) => {
   return !status
     ? [
+        // {
+        //   label: 'Edit shop',
+        //   action: () => {
+        //     setIsOpenUpdate(true);
+        //     setCurrentIdSelected(id);
+        //   },
+        //   icon: <Edit />
+        // },
         {
-          label: 'Edit shop',
-          action: () => {
-            setIsOpenUpdate(true);
-            setCurrentIdSelected(id);
-          },
-          icon: <Edit />
+          label: 'Active Service',
+          action: () => updateShopOwnerStatus(id),
+          icon: <LockOpen />
         }
       ]
     : [
@@ -69,6 +81,11 @@ const getActions = ({ status, id, setCurrentIdSelected, setIsOpenUpdate }) => {
             setCurrentIdSelected(id);
           },
           icon: <Edit />
+        },
+        {
+          label: 'Disable Service',
+          action: () => updateShopOwnerStatus(id),
+          icon: <Lock />
         }
       ];
 };
@@ -106,7 +123,8 @@ const COLUMNS = [
 const getData = ({
   shopOwnerData = [],
   setCurrentIdSelected,
-  setIsOpenUpdate
+  setIsOpenUpdate,
+  updateShopOwnerStatus
 }) =>
   shopOwnerData &&
   shopOwnerData.map(
@@ -143,7 +161,8 @@ const getData = ({
         status,
         id,
         setCurrentIdSelected,
-        setIsOpenUpdate
+        setIsOpenUpdate,
+        updateShopOwnerStatus
       }).map(({ label, action, icon }, index) => (
         <ButtonActionTableComponent
           key={index}
@@ -161,7 +180,8 @@ const ShopOwnerManagementComponent = ({
   addShopOwnerSuccessMessage,
   resetData,
   resetAddShopOwnerForm,
-  updateShopOwnerData
+  updateShopOwnerData,
+  updateShopOwnerStatus
 }) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
@@ -224,7 +244,8 @@ const ShopOwnerManagementComponent = ({
         data={getData({
           shopOwnerData: (shopOwnerData || {}).content || [],
           setCurrentIdSelected,
-          setIsOpenUpdate
+          setIsOpenUpdate,
+          updateShopOwnerStatus
         })}
         columns={COLUMNS}
         totalCount={totalCount}

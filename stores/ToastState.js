@@ -25,7 +25,8 @@ import {
   ADD_NEW_SHOP,
   UPDATE_SHOP,
   ADD_NEW_SHOP_OWNER,
-  UPDATE_SHOP_OWNER
+  UPDATE_SHOP_OWNER,
+  DELETE_SHOP_OWNER
 } from './ShopState';
 import { ADD_NEW_CONFIG, DELETE_CONFIG, UPDATE_CONFIG } from './ConfigState';
 import { UPDATE_COMPLAIN_STATUS } from './ComplainState';
@@ -84,6 +85,9 @@ export default {
           msgNotify = 'Add new shop owner success';
           break;
         case UPDATE_SHOP_OWNER:
+          msgNotify = 'Update shop owner success';
+          break;
+        case DELETE_SHOP_OWNER:
           msgNotify = 'Update shop owner success';
           break;
         case ADD_NEW_CATEGORY:
@@ -158,6 +162,9 @@ export default {
           msgNotify = get('json.message')(payload) || 'Add new shop owner fail';
           break;
         case UPDATE_SHOP_OWNER:
+          msgNotify = 'Update shop owner fail';
+          break;
+        case DELETE_SHOP_OWNER:
           msgNotify = 'Update shop owner fail';
           break;
         case ADD_NEW_CATEGORY:

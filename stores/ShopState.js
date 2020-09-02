@@ -66,7 +66,7 @@ export const AddNewShopOwnerResetter = getResetter(AddNewShopOwnerAPI);
 // Delete Shop
 export const DeleteShopOwnerAPI = makeFetchAction(DELETE_SHOP_OWNER, ({ id }) =>
   nfetch({
-    endpoint: `/shop/${id}`,
+    endpoint: `/api/updateShopOwnerStatus/${id}`,
     method: 'DELETE'
   })()
 );
@@ -74,7 +74,7 @@ export const deleteShopOwner = id =>
   respondToSuccess(
     DeleteShopOwnerAPI.actionCreator({ id }),
     (resp, _, store) => {
-      store.dispatch(getShopOwners({}));
+      store.dispatch(getShopOwners({ page: 0, pageSize: 10 }));
     }
   );
 export const DeleteShopOwnerDataSelector = DeleteShopOwnerAPI.dataSelector;
