@@ -183,9 +183,9 @@ const ComplainManagementComponent = ({
         content={
           <Grid style={{ padding: `32px 0px` }}>
             <Typography variant="h6">
-              Do you want update status to complete for this complain?
+              Bạn có muốn xử lí yêu cầu phàn nàn này không?
             </Typography>
-            <i style={{ color: 'red' }}>Remember: This action can not revert</i>
+            <i style={{ color: 'red' }}>Chú ý: hành động này k thể revert</i>
           </Grid>
         }
         onClose={() => {
