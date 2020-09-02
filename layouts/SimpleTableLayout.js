@@ -93,6 +93,7 @@ const ReactTableLayout = ({
   dispatchExCondition = [],
   setDateRange,
   dateRange,
+  isRefresh = true,
   ...others
 }) => {
   const {
@@ -108,17 +109,19 @@ const ReactTableLayout = ({
   const [isReFetchWithNoPaging, setIsReFetchWithNoPaging] = useState(true);
   const [isReFetchWithNoAction, setIsReFetchWithNoAction] = useState(true);
 
-  useEffect(() => {
-    setIsReFetchWithNoAction(true);
-  }, [dispatchExCondition]);
+  // useEffect(() => {
+  //   doDispatchAction(
+  //     typeof dispatchAction === 'function' &&
+  //       dispatchAction(pageIndex, pageSizeTable, ...dispatchExCondition)
+  //   );
+  // }, [dispatchExCondition]);
 
   useEffect(() => {
-    if (hasPaging && !hasAction && isReFetchWithNoAction === true) {
+    if (hasPaging && !hasAction && isRefresh) {
       doDispatchAction(
         typeof dispatchAction === 'function' &&
           dispatchAction(pageIndex, pageSizeTable, ...dispatchExCondition)
       );
-      setIsReFetchWithNoAction(false);
     }
   }, [
     hasAction,
@@ -127,7 +130,7 @@ const ReactTableLayout = ({
     isFetchPaging,
     pageSizeTable,
     pageIndex,
-    dispatchExCondition
+    isRefresh
   ]);
 
   useEffect(() => {

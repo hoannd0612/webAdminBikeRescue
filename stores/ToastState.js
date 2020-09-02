@@ -28,6 +28,7 @@ import {
   UPDATE_SHOP_OWNER
 } from './ShopState';
 import { ADD_NEW_CONFIG, DELETE_CONFIG, UPDATE_CONFIG } from './ConfigState';
+import { UPDATE_COMPLAIN_STATUS } from './ComplainState';
 export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
 export const REMOVE_TOAST = 'REMOVE_TOAST';
 
@@ -121,6 +122,10 @@ export default {
         case UPDATE_USER_STATUS:
           msgNotify = 'Update user status success';
           break;
+        case UPDATE_COMPLAIN_STATUS:
+          msgNotify = 'Update complain success';
+          break;
+
         default:
           break;
       }
@@ -190,6 +195,9 @@ export default {
           break;
         case UPDATE_USER_STATUS:
           msgNotify = 'Update user status fail';
+          break;
+        case UPDATE_COMPLAIN_STATUS:
+          msgNotify = 'Update complain fail';
           break;
         default:
           break;

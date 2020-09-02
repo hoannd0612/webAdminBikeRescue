@@ -2,8 +2,15 @@ import ButtonActionTableComponent from './commons/ButtonActionTableComponent';
 import ReactTableLayout from '../layouts/SimpleTableLayout';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Lock, LockOpen, Done, Edit, Visibility } from '@material-ui/icons';
-import { Chip, Grid, Link, Tooltip } from '@material-ui/core';
+import {
+  Lock,
+  LockOpen,
+  Done,
+  Edit,
+  Visibility,
+  AssignmentTurnedIn
+} from '@material-ui/icons';
+import { Chip, Grid, Link, Tooltip, Typography } from '@material-ui/core';
 import { reset } from 'redux-form';
 import { createStructuredSelector } from 'reselect';
 import FrameHeaderComponent from './FrameHeaderComponent';
@@ -11,7 +18,10 @@ import Button from '../layouts/Button';
 import AlertDialog from '../layouts/AlertDialog';
 import {
   GetComplainsDataSelector,
-  getComplains
+  getComplains,
+  updateComplain,
+  UpdateComplainDataSelector,
+  UpdateComplainResetter
 } from '../stores/ComplainState';
 import { createLink } from '../libs';
 import DisplayShortenComponent from './commons/DisplayShotenComponent';
@@ -20,39 +30,19 @@ import SelectLayout from '../layouts/SelectLayout';
 
 const connectWithRedux = connect(
   createStructuredSelector({
-    complainData: GetComplainsDataSelector
+    complainData: GetComplainsDataSelector,
+    updateComplainData: UpdateComplainDataSelector
   }),
   dispatch => ({
     getComplains: (page, size, status) =>
-      dispatch(getComplains({ page, size, status }))
+      dispatch(getComplains({ page, size, status })),
+    updateComplain: id => dispatch(updateComplain(id)),
+    resetData: () => {
+      dispatch(UpdateComplainResetter);
+    }
   })
 );
 
-const getActions = ({ status, id, Complain }) => {
-  return !status
-    ? [
-        {
-          label: 'Active Complain',
-          action: () => activeComplain(Complain),
-          icon: <LockOpen />
-        }
-      ]
-    : [
-        {
-          label: 'Edit Complain',
-          action: () => {
-            setIsOpenUpdate(true);
-            setCurrentIdSelected(id);
-          },
-          icon: <Edit />
-        },
-        {
-          label: 'Disable Complain',
-          action: () => disableComplain(Complain),
-          icon: <Lock />
-        }
-      ];
-};
 const COLUMNS = [
   {
     field: 'requestCode',
@@ -60,7 +50,7 @@ const COLUMNS = [
   },
   {
     field: 'owner',
-    title: 'Owner'
+    title: 'Complainer'
   },
   {
     field: 'status',
@@ -72,7 +62,11 @@ const COLUMNS = [
   }
 ];
 
-const getData = ({ complainData = [] }) =>
+const getData = ({
+  complainData = [],
+  setIsOpenUpdate,
+  setCurrentIdSelected
+}) =>
   complainData &&
   complainData.map(complain => ({
     requestCode: (
@@ -105,11 +99,26 @@ const getData = ({ complainData = [] }) =>
       />
     ),
     actions: (
-      <Link href={createLink(['complain', `details?id=${complain.id}`])}>
-        <Tooltip title="Complain details" placement="top">
-          <Visibility />
-        </Tooltip>
-      </Link>
+      <Grid>
+        <Link href={createLink(['complain', `details?id=${complain.id}`])}>
+          <Tooltip title="Complain details" placement="top">
+            <Visibility />
+          </Tooltip>
+        </Link>
+        {!complain.status && (
+          <Tooltip
+            style={{ cursor: 'pointer', marginLeft: 4 }}
+            title="Complete complain"
+            placement="top"
+            onClick={() => {
+              setIsOpenUpdate(true);
+              setCurrentIdSelected(complain.id);
+            }}
+          >
+            <AssignmentTurnedIn />
+          </Tooltip>
+        )}
+      </Grid>
     )
   }));
 
@@ -128,10 +137,18 @@ const selectOptions = [
   }
 ];
 
-const ComplainManagementComponent = ({ complainData, getComplains }) => {
+const ComplainManagementComponent = ({
+  complainData,
+  getComplains,
+  updateComplainData,
+  updateComplain,
+  resetData
+}) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
+  const [currentIdSelected, setCurrentIdSelected] = useState(null);
   const [status, setStatus] = useState('all');
+  const [isRefresh, setIsRefresh] = useState(true);
 
   let totalCount = 0,
     page = 0,
@@ -141,38 +158,41 @@ const ComplainManagementComponent = ({ complainData, getComplains }) => {
   }
 
   useEffect(() => {
-    console.log({ status });
-  }, [status]);
+    if (updateComplainData) {
+      setIsOpenUpdate(false);
+      resetData();
+    }
+  }, [updateComplainData]);
+
+  useEffect(() => {
+    if (isRefresh) {
+      setIsRefresh(false);
+    }
+  }, [isRefresh]);
 
   return (
     <React.Fragment>
-      {/* <AlertDialog
-        title="Add new Complain"
-        isOpenDialog={isOpenAdd}
-        setIsOpenDialog={setIsOpenAdd}
-        isFooter={false}
-        size="xs"
-        fullWidth
-        content={isOpenAdd ? <ComplainActionsComponent /> : null}
-      />
       <AlertDialog
-        title="Update Complain"
         isOpenDialog={isOpenUpdate}
         setIsOpenDialog={setIsOpenUpdate}
-        isFooter={false}
-        size="xs"
+        size="sm"
         fullWidth
+        onOk={() => {
+          currentIdSelected && updateComplain(currentIdSelected);
+        }}
         content={
-          isOpenUpdate ? (
-            <ComplainActionsComponent isUpdate id={currentIdSelected} />
-          ) : null
+          <Grid style={{ padding: `32px 0px` }}>
+            <Typography variant="h6">
+              Do you want update status to complete for this complain?
+            </Typography>
+            <i style={{ color: 'red' }}>Remember: This action can not revert</i>
+          </Grid>
         }
         onClose={() => {
           setIsOpenUpdate(false);
         }}
-      /> */}
+      />
       <FrameHeaderComponent title="Complain management">
-        {/* <Button onClick={() => setIsOpenAdd(true)}>Add new Complain</Button> */}
         <div>
           <Grid container alignItems="center">
             Filter by status:{' '}
@@ -180,6 +200,7 @@ const ComplainManagementComponent = ({ complainData, getComplains }) => {
               onChange={event => {
                 localStorage.setItem('_complain_status', event.target.value);
                 setStatus(event.target.value);
+                setIsRefresh(true);
               }}
               value={status}
               options={selectOptions}
@@ -191,12 +212,15 @@ const ComplainManagementComponent = ({ complainData, getComplains }) => {
         dispatchExCondition={[status]}
         dispatchAction={getComplains}
         data={getData({
-          complainData: (complainData || {}).content || []
+          complainData: (complainData || {}).content || [],
+          setIsOpenUpdate,
+          setCurrentIdSelected
         })}
         columns={COLUMNS}
         totalCount={totalCount}
         page={page}
         pageSize={pageSize}
+        isRefresh={isRefresh}
       />
     </React.Fragment>
   );
