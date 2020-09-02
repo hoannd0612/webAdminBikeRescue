@@ -183,9 +183,9 @@ const ComplainManagementComponent = ({
         content={
           <Grid style={{ padding: `32px 0px` }}>
             <Typography variant="h6">
-              Bạn có muốn xử lí yêu cầu phàn nàn này không?
+              Xác nhận hoàn thành khiểu nại
             </Typography>
-            <i style={{ color: 'red' }}>Chú ý: hành động này k thể revert</i>
+            <i style={{ color: 'red' }}>Chú ý: hành động này không thể xác nhận lại</i>
           </Grid>
         }
         onClose={() => {
