@@ -91,7 +91,7 @@ export const updateShopOwner = values => {
   return respondToSuccess(
     UpdateShopOwnerAPI.actionCreator({
       ...values,
-      status: values.status === true ? 4 : 0
+      status: values.status == true ? 1 : 0
     }),
     (resp, _, store) => {
       store.dispatch(getShopOwners({ page: 0, pageSize: 10 }));

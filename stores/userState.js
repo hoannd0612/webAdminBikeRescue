@@ -44,7 +44,7 @@ export const updateUser = values =>
   respondToSuccess(
     UpdateUserAPI.actionCreator({
       ...values,
-      status: values.status === true ? 4 : 0
+      status: values.status == true ? 1 : 0
     }),
     (resp, _, store) => {
       store.dispatch(getUsers({ page: 0, size: 10 }));
