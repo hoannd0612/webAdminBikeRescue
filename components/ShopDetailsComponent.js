@@ -112,7 +112,7 @@ const ShopDetailsComponent = ({
   let displays = {};
   if (detailsData) {
     displays = {
-      avatar: <AvatarComponent small url={detailsData.avatarUrl} />,
+      avatar: <AvatarComponent small url={detailsData.avtUrl} />,
       fullName: detailsData.fullName,
       phoneNumber: detailsData.phoneNumber,
       email: detailsData.email || <small>N/A</small>,
