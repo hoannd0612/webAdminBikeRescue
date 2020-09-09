@@ -106,11 +106,6 @@ const menuStructures = [
     icon: <AccountCircle fontSize="small" />
   },
   {
-    name: 'roles',
-    label: 'Role',
-    icon: <DeviceHub fontSize="small" />
-  },
-  {
     name: 'category',
     label: 'Category',
     icon: <Category fontSize="small" />
