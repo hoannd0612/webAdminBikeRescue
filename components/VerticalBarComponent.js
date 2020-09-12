@@ -106,11 +106,6 @@ const menuStructures = [
     icon: <AccountCircle fontSize="small" />
   },
   {
-    name: 'category',
-    label: 'Category',
-    icon: <Category fontSize="small" />
-  },
-  {
     name: 'service',
     label: 'Service',
     icon: <RoomService fontSize="small" />
@@ -129,11 +124,6 @@ const menuStructures = [
     name: 'configs',
     label: 'Configs',
     icon: <PermDataSetting fontSize="small" />
-  },
-  {
-    name: 'feedback',
-    label: 'Feedback',
-    icon: <Message fontSize="small" />
   },
   {
     name: 'complain',
