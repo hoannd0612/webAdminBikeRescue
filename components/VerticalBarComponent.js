@@ -120,11 +120,11 @@ const menuStructures = [
     label: 'Request',
     icon: <ImportExport fontSize="small" />
   },
-  {
-    name: 'configs',
-    label: 'Configs',
-    icon: <PermDataSetting fontSize="small" />
-  },
+  // {
+  //   name: 'configs',
+  //   label: 'Configs',
+  //   icon: <PermDataSetting fontSize="small" />
+  // },
   {
     name: 'complain',
     label: 'Complain',
